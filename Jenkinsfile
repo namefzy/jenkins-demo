@@ -9,17 +9,17 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh '/opt/maven/bin/mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh '/opt/maven/bin/mvn test'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'mvn deploy'
+                sh '/opt/maven/bin/mvn deploy'
             }
         }
     }
