@@ -1,18 +1,26 @@
-node {
-  stage("Clone the project") {
-    git branch: 'master', url: 'https://github.com/namefzy/jenkins-demo.git'
-  }
+pipeline {
+    agent any
 
-  stage("Compilation") {
-    sh "mvn clean install -DskipTests"
-  }
-
-  stage("Tests and Deployment") {
-    stage("Runing unit tests") {
-      sh "mvn test -Punit"
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/namefzy/jenkins-demo.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'mvn deploy'
+            }
+        }
     }
-    stage("Deployment") {
-      sh 'nohup mvn spring-boot:run -Dserver.port=8001 &'
-    }
-  }
 }
